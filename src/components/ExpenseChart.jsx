@@ -92,15 +92,13 @@ const ExpenseChart = ({ userId }) => {
   if (categoryData.length === 0) {
     return (
       <div className="no-data-message">
-        <h3 className="chart-title">Répartition des dépenses par catégorie</h3>
-        <p>Aucune dépense trouvée pour générer le graphique.</p>
       </div>
     );
   }
 
   return (
     <div className="chart-container">
-      <h3 className="chart-title">Répartition des dépenses par catégorie</h3>
+      <h3 className="chart-title">Mes dépenses</h3>
       <div className="chart-wrapper">
         <ResponsiveContainer width="100%" height="100%">
           <PieChart>

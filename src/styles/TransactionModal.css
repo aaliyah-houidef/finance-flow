@@ -1,0 +1,110 @@
+.modal-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -40%); /* Centrer la modal */
+  padding: 1rem; /* Ajuste le padding pour réduire la taille globale */
+  background-color: #242424; /* Fond semi-transparent */
+  z-index: 50; /* Toujours au-dessus */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  max-width: 50rem;
+  font-size: small;
+  border-radius: 20px;
+}
+
+.modal-content {
+  background-color: #2b2b2b;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 0.75rem;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2), 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
+}
+
+.modal-preview {
+  border-radius: 0.5rem; /* Rounded corners for preview */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Shadow around preview */
+}
+
+.modal-close-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background-color: #e63946; /* Close button color */
+  color: #ffffff;
+  border: none;
+  border-radius: 50%;
+  padding: 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.modal-close-btn:hover {
+  background-color: #c31e2e; /* Darker on hover */
+}
+
+.modal-form {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Deux colonnes égales */
+  gap: 1.5rem; /* Espace entre les éléments */
+}
+
+.modal-form input,
+.modal-form select,
+.modal-form button {
+  width: 100%; /* Assurer que tous les éléments prennent toute la largeur disponible */
+  padding: 0.75rem; /* Plus grand padding pour plus de confort */
+  border: 1px solid #555555; /* Bordure subtile */
+  border-radius: 0.5rem; /* Coins arrondis */
+  background-color: #383838; /* Fond des inputs */
+  color: #ffffff; /* Couleur du texte */
+  box-sizing: border-box; /* Important pour inclure le padding dans la largeur */
+}
+
+
+.modal-form button {
+  background-color: #38b6ff; /* Button background */
+  color: #ffffff; /* Button text color */
+  cursor: pointer;
+  font-weight: bold; /* Bold text */
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.modal-form button:hover {
+  background-color: #2a9cd8; /* Darker blue on hover */
+  transform: translateY(-2px); /* Slight lift on hover */
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: space-between; /* Space between buttons */
+  gap: 1rem; /* Larger space between buttons */
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  text-align: start;
+}
+
+.form-label{
+  margin-bottom: 0.5rem;
+}
+
+.modal-actions {
+  display: flex;
+}
+
+.btn-secondary{
+  background-color: #e63946 !important;
+}
+
+.btn-primary{
+  background-color: #4F772D !important;
+}

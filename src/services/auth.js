@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost/my-fullstack-app/backend/api';
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost/finance-flow/backend/api';
 
 // Créer un événement personnalisé pour la mise à jour de l'authentification
 export const authEvent = new EventTarget();

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { getCurrentUser } from '../services/auth';
+import '../styles/TransactionModal.css';
 
 const TransactionModal = ({ isOpen, onClose, onSubmit }) => {
   const [description, setDescription] = useState('');
@@ -44,15 +45,17 @@ const TransactionModal = ({ isOpen, onClose, onSubmit }) => {
     if (category) {
       const filtered = subcategories.filter(sub => sub.id_category === parseInt(category));
       setFilteredSubcategories(filtered);
+      // Réinitialiser la sous-catégorie quand on change de catégorie
+      setSubcategory('');
     } else {
       setFilteredSubcategories([]);
+      setSubcategory('');
     }
   }, [category, subcategories]);
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      // Vérifier le type de fichier
       const validTypes = ['image/jpeg', 'image/png', 'image/gif', 'application/pdf'];
       if (!validTypes.includes(file.type)) {
         alert('Type de fichier non valide. Veuillez choisir une image (JPG, PNG, GIF) ou un PDF.');
@@ -60,7 +63,6 @@ const TransactionModal = ({ isOpen, onClose, onSubmit }) => {
         return;
       }
 
-      // Vérifier la taille du fichier (max 5MB)
       if (file.size > 5 * 1024 * 1024) {
         alert('Le fichier est trop volumineux. Taille maximum : 5MB');
         e.target.value = '';
@@ -69,7 +71,6 @@ const TransactionModal = ({ isOpen, onClose, onSubmit }) => {
 
       setReceipt(file);
 
-      // Créer une URL de prévisualisation pour les images
       if (file.type.startsWith('image/')) {
         const url = URL.createObjectURL(file);
         setPreviewUrl(url);
@@ -79,7 +80,6 @@ const TransactionModal = ({ isOpen, onClose, onSubmit }) => {
     }
   };
 
-  // Permettre de retirer le fichier
   const handleRemoveFile = () => {
     setReceipt(null);
     setPreviewUrl(null);
@@ -88,8 +88,8 @@ const TransactionModal = ({ isOpen, onClose, onSubmit }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!amount || !category) {
-      alert('Veuillez remplir les champs obligatoires (montant et catégorie)');
+    if (!description || !amount || !category || !subcategory) {
+      alert('Veuillez remplir tous les champs obligatoires (description, montant, catégorie et sous-catégorie)');
       return;
     }
 
@@ -98,11 +98,11 @@ const TransactionModal = ({ isOpen, onClose, onSubmit }) => {
       amount: parseFloat(amount),
       type,
       payment_method: paymentMethod,
-      description: description || 'Sans description',
+      description,
       recurrence,
       id_category: parseInt(category),
-      id_subcategory: subcategory ? parseInt(subcategory) : null,
-      payment_confirmation: receipt || null // Explicitement null si pas de reçu
+      id_subcategory: parseInt(subcategory),
+      payment_confirmation: receipt || null
     };
 
     onSubmit(transactionData);
@@ -122,38 +122,39 @@ const TransactionModal = ({ isOpen, onClose, onSubmit }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-      <div className="bg-white p-6 rounded-lg shadow-lg w-11/12 md:w-1/2 max-h-[90vh] overflow-y-auto">
-        <h2 className="text-2xl font-bold mb-4">Nouvelle Transaction</h2>
-        
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label className="block mb-1">Description (optionnelle)</label>
+    <div className="modal-backdrop">
+      <div className="modal-container">
+        <h2 className="modal-title">Nouvelle Transaction</h2>
+
+        <form onSubmit={handleSubmit} className="modal-form">
+          <div className="form-group">
+            <label className="form-label">Description</label>
             <input
               type="text"
-              className="w-full p-2 border rounded"
+              className="form-input"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               placeholder="Ajouter une description..."
+              required
             />
           </div>
 
-          <div>
-            <label className="block mb-1">Montant *</label>
+          <div className="form-group">
+            <label className="form-label">Montant</label>
             <input
               type="number"
               step="0.01"
-              className="w-full p-2 border rounded"
+              className="form-input"
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
               required
             />
           </div>
 
-          <div>
-            <label className="block mb-1">Type</label>
+          <div className="form-group">
+            <label className="form-label">Type</label>
             <select
-              className="w-full p-2 border rounded"
+              className="form-select"
               value={type}
               onChange={(e) => setType(e.target.value)}
             >
@@ -162,10 +163,10 @@ const TransactionModal = ({ isOpen, onClose, onSubmit }) => {
             </select>
           </div>
 
-          <div>
-            <label className="block mb-1">Méthode de paiement</label>
+          <div className="form-group">
+            <label className="form-label">Méthode de paiement</label>
             <select
-              className="w-full p-2 border rounded"
+              className="form-select"
               value={paymentMethod}
               onChange={(e) => setPaymentMethod(e.target.value)}
             >
@@ -176,23 +177,10 @@ const TransactionModal = ({ isOpen, onClose, onSubmit }) => {
             </select>
           </div>
 
-          <div>
-            <label className="block mb-1">Récurrence</label>
+          <div className="form-group">
+            <label className="form-label">Catégorie </label>
             <select
-              className="w-full p-2 border rounded"
-              value={recurrence}
-              onChange={(e) => setRecurrence(e.target.value)}
-            >
-              <option value="none">Unique</option>
-              <option value="monthly">Mensuel</option>
-              <option value="weekly">Hebdomadaire</option>
-            </select>
-          </div>
-
-          <div>
-            <label className="block mb-1">Catégorie *</label>
-            <select
-              className="w-full p-2 border rounded"
+              className="form-select"
               value={category}
               onChange={(e) => setCategory(e.target.value)}
               required
@@ -204,13 +192,14 @@ const TransactionModal = ({ isOpen, onClose, onSubmit }) => {
             </select>
           </div>
 
-          <div>
-            <label className="block mb-1">Sous-catégorie (optionnelle)</label>
+          <div className="form-group">
+            <label className="form-label">Sous-catégorie </label>
             <select
-              className="w-full p-2 border rounded"
+              className="form-select"
               value={subcategory}
               onChange={(e) => setSubcategory(e.target.value)}
               disabled={!category}
+              required
             >
               <option value="">Sélectionnez une sous-catégorie</option>
               {filteredSubcategories.map(subcat => (
@@ -219,22 +208,35 @@ const TransactionModal = ({ isOpen, onClose, onSubmit }) => {
             </select>
           </div>
 
-          <div>
-            <label className="block mb-1">Justificatif de paiement (optionnel)</label>
-            <div className="space-y-2">
+          <div className="form-group">
+            <label className="form-label">Récurrence</label>
+            <select
+              className="form-select"
+              value={recurrence}
+              onChange={(e) => setRecurrence(e.target.value)}
+            >
+              <option value="none">Unique</option>
+              <option value="monthly">Mensuel</option>
+              <option value="weekly">Hebdomadaire</option>
+            </select>
+          </div>
+
+          <div className="form-group">
+            <label className="form-label">Justificatif de paiement (optionnel)</label>
+            <div className="file-input-group">
               <input
                 type="file"
-                className="w-full p-2 border rounded"
+                className="file-input"
                 onChange={handleFileChange}
                 accept="image/jpeg,image/png,image/gif,application/pdf"
               />
               {previewUrl && (
-                <div className="relative">
-                  <img src={previewUrl} alt="Aperçu du reçu" className="max-w-xs rounded-lg shadow" />
+                <div className="file-preview-container">
+                  <img src={previewUrl} alt="Aperçu du reçu" className="file-preview" />
                   <button
                     type="button"
                     onClick={handleRemoveFile}
-                    className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600"
+                    className="file-remove-btn"
                   >
                     ✕
                   </button>
@@ -243,21 +245,19 @@ const TransactionModal = ({ isOpen, onClose, onSubmit }) => {
             </div>
           </div>
 
-          <div className="flex justify-end space-x-4 mt-6">
-            <button
-              type="button"
-              onClick={onClose}
-              className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400"
-            >
-              Annuler
-            </button>
-            <button
-              type="submit"
-              className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
-            >
-              Ajouter
-            </button>
-          </div>
+          <button
+            type="button"
+            onClick={onClose}
+            className="btn-secondary"
+          >
+            Annuler
+          </button>
+          <button
+            type="submit"
+            className="btn-primary"
+          >
+            Ajouter
+          </button>
         </form>
       </div>
     </div>

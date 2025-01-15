@@ -1,18 +1,49 @@
-import { Link, useNavigate, useLocation } from 'react-router-dom'; // Ajout de useLocation pour savoir quelle page est active
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { logout, getCurrentUser } from '../services/auth';
 import '../styles/Navbar.css';
 
 const Navbar = () => {
   const navigate = useNavigate();
-  const location = useLocation(); // Permet de récupérer l'URL actuelle
+  const location = useLocation();
   const currentUser = getCurrentUser();
 
   const handleLogout = () => {
     logout();
-    // Redirection vers la page de connexion après la déconnexion
-    navigate('/login');
-    // Forcer le rechargement de la page pour réinitialiser l'état de l'application
-    window.location.reload();
+    navigate('/login', { replace: true });
+  };
+
+  // Détermine quel bouton afficher en fonction de la page courante
+  const renderAuthButton = () => {
+    const isLoginPage = location.pathname === '/login';
+    const isRegisterPage = location.pathname === '/register';
+
+    if (isLoginPage) {
+      return (
+        <Link to="/register" className="bg-green-500">
+          Inscription
+        </Link>
+      );
+    }
+
+    if (isRegisterPage) {
+      return (
+        <Link to="/login" className="bg-indigo-500">
+          Connexion
+        </Link>
+      );
+    }
+
+    // Sur les autres pages, afficher les deux boutons
+    return (
+      <>
+        <Link to="/login" className="bg-indigo-500">
+          Connexion
+        </Link>
+        <Link to="/register" className="bg-green-500">
+          Inscription
+        </Link>
+      </>
+    );
   };
 
   return (
@@ -45,12 +76,7 @@ const Navbar = () => {
             </div>
           ) : (
             <div className="flex">
-              <Link to="/login" className="bg-indigo-500">
-                Connexion
-              </Link>
-              <Link to="/register" className="bg-green-500">
-                Inscription
-              </Link>
+              {renderAuthButton()}
             </div>
           )}
         </div>

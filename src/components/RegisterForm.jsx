@@ -33,8 +33,14 @@ const RegisterForm = ({ onRegisterSuccess }) => {
     try {
       const response = await register(formData);
       if (response.success) {
+        // Stocker les informations de l'utilisateur dans le localStorage
+        localStorage.setItem('user', JSON.stringify(response.user));
+        
+        // Informer le composant parent du succès de l'inscription
         onRegisterSuccess(response.user);
-        navigate('/login'); // Rediriger vers la page de connexion
+        
+        // Rediriger vers la page Home
+        navigate('/home');
       } else {
         setError(response.message);
       }

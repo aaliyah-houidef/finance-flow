@@ -9,7 +9,7 @@ export default defineConfig({
     open: true,
     proxy: {
       '/api': {
-        target: 'http://localhost/my-fullstack-app/backend',
+        target: 'http://localhost/finance-flow/backend',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, '')
       }
