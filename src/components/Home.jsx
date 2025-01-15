@@ -10,10 +10,7 @@ const Home = () => {
 
   const handleAddTransaction = async (transactionData) => {
     try {
-      // Créer un FormData pour envoyer le fichier
       const formData = new FormData();
-      
-      // Ajouter toutes les données de la transaction
       Object.keys(transactionData).forEach(key => {
         if (key === 'payment_confirmation' && transactionData[key]) {
           formData.append('payment_confirmation', transactionData[key]);
@@ -24,7 +21,7 @@ const Home = () => {
 
       const response = await fetch('http://localhost/finance-flow/backend/api/transactions/add_transaction.php', {
         method: 'POST',
-        body: formData // Ne pas définir le Content-Type header, le navigateur le fera automatiquement
+        body: formData
       });
 
       const data = await response.json();
@@ -36,7 +33,6 @@ const Home = () => {
         };
         localStorage.setItem('user', JSON.stringify(updatedUser));
         setUser(updatedUser);
-        
         setIsModalOpen(false);
         alert('Transaction ajoutée avec succès !');
       } else {

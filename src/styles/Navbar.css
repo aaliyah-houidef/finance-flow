@@ -1,0 +1,92 @@
+/* Navbar.css */
+
+nav {
+  background-color: #001F54; /* Bleu marine */
+  color: white;
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+h1 {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.flex {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.text-gray-300 {
+  color: #B3B3B3;
+}
+
+.bg-blue-500 {
+  background-color: #003366; /* Bleu marine foncé */
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  transition: background-color 0.2s;
+  text-decoration: none;
+  font-size: 0.875rem;
+  font-weight: bold;
+}
+
+.bg-blue-500:hover {
+  background-color: #001F54; /* Bleu marine clair */
+}
+
+.bg-red-500 {
+  background-color: #E53E3E; /* Rouge */
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  transition: background-color 0.2s;
+  font-size: 0.875rem;
+  font-weight: bold;
+}
+
+.bg-red-500:hover {
+  background-color: #C53030; /* Rouge foncé */
+}
+
+.bg-indigo-500 {
+  background-color: #4C51BF; /* Indigo */
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  transition: background-color 0.2s;
+  text-decoration: none;
+  font-size: 0.875rem;
+  font-weight: bold;
+}
+
+.bg-indigo-500:hover {
+  background-color: #434190; /* Indigo foncé */
+}
+
+.bg-green-500 {
+  background-color: #38A169; /* Vert */
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  transition: background-color 0.2s;
+  text-decoration: none;
+  font-size: 0.875rem;
+  font-weight: bold;
+}
+
+.bg-green-500:hover {
+  background-color: #2F855A; /* Vert foncé */
+}

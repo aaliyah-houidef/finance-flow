@@ -6,7 +6,7 @@ import LoginForm from './components/LoginForm';
 import RegisterForm from './components/RegisterForm';
 import ProtectedRoute from './components/ProtectedRoute';
 import Home from './components/Home';
-import Profile from './components/Profile'; // Import de la page Profil
+import Profile from './components/Profile';
 
 import { getCurrentUser } from './services/auth';
 

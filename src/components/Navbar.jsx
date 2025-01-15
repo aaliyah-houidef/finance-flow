@@ -1,5 +1,6 @@
 import { Link, useNavigate, useLocation } from 'react-router-dom'; // Ajout de useLocation pour savoir quelle page est active
 import { logout, getCurrentUser } from '../services/auth';
+import '../styles/Navbar.css';
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -15,55 +16,39 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-gray-800 text-white p-4">
-      <div className="container mx-auto flex justify-between items-center">
-        <div>
+    <nav className="navbar">
+      <div className="navbar-container">
+        <div className="navbar-left">
           <h1>FinanceFlow</h1>
         </div>
         
-        <div className="flex items-center gap-4">
+        <div className="navbar-right">
           {currentUser ? (
-            <div className="flex items-center gap-4">
+            <div className="flex">
               <span className="text-gray-300">
                 Bienvenue, {currentUser.username}
               </span>
 
-              {/* Conditionner l'onglet en fonction de la page active */}
               {location.pathname === '/profile' ? (
-                <Link
-                  to="/"
-                  className="bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded transition-colors"
-                >
+                <Link to="/" className="bg-blue-500">
                   Accueil
                 </Link>
               ) : (
-                <Link
-                  to="/profile"
-                  className="bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded transition-colors"
-                >
+                <Link to="/profile" className="bg-blue-500">
                   Profil
                 </Link>
               )}
 
-              <button
-                onClick={handleLogout}
-                className="bg-red-500 hover:bg-red-600 px-4 py-2 rounded transition-colors"
-              >
+              <button onClick={handleLogout} className="bg-red-500">
                 Déconnexion
               </button>
             </div>
           ) : (
-            <div className="flex gap-4">
-              <Link
-                to="/login"
-                className="bg-indigo-500 hover:bg-indigo-600 px-4 py-2 rounded transition-colors"
-              >
+            <div className="flex">
+              <Link to="/login" className="bg-indigo-500">
                 Connexion
               </Link>
-              <Link
-                to="/register"
-                className="bg-green-500 hover:bg-green-600 px-4 py-2 rounded transition-colors"
-              >
+              <Link to="/register" className="bg-green-500">
                 Inscription
               </Link>
             </div>
