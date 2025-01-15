@@ -61,9 +61,9 @@ const Profile = () => {
     const fetchData = async () => {
       try {
         const [transactionsResponse, categoriesResponse, subcategoriesResponse] = await Promise.all([
-          fetch(`http://localhost/my-fullstack-app/backend/api/transactions/get_transactions.php?user_id=${currentUser.id}`),
-          fetch('http://localhost/my-fullstack-app/backend/api/categories/get_categories.php'),
-          fetch('http://localhost/my-fullstack-app/backend/api/categories/get_subcategories.php')
+          fetch(`http://localhost/finance-flow/backend/api/transactions/get_transactions.php?user_id=${currentUser.id}`),
+          fetch('http://localhost/finance-flow/backend/api/categories/get_categories.php'),
+          fetch('http://localhost/finance-flow/backend/api/categories/get_subcategories.php')
         ]);
 
         const [transactionsData, categoriesData, subcategoriesData] = await Promise.all([
@@ -256,9 +256,9 @@ const Profile = () => {
             
             {selectedTransaction.payment_confirmation && (
               <div className="mt-4">
-                <p><strong>Preuve de paiement :</strong></p>
+                <p><strong>Reçu :</strong></p>
                 <a
-                  href={`http://localhost/my-fullstack-app/backend/api/transactions/download_receipt.php?filename=${selectedTransaction.payment_confirmation}`}
+                  href={`http://localhost/finance-flow/backend/api/transactions/download_receipt.php?filename=${selectedTransaction.payment_confirmation}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-block mt-2 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"

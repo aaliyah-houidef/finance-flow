@@ -19,7 +19,7 @@ const TransactionModal = ({ isOpen, onClose, onSubmit }) => {
 
   useEffect(() => {
     // Charger les catégories au montage du composant
-    fetch('http://localhost/my-fullstack-app/backend/api/categories/get_categories.php')
+    fetch('http://localhost/finance-flow/backend/api/categories/get_categories.php')
       .then(response => response.json())
       .then(data => {
         if (data.success) {
@@ -29,7 +29,7 @@ const TransactionModal = ({ isOpen, onClose, onSubmit }) => {
       .catch(error => console.error('Error:', error));
 
     // Charger les sous-catégories
-    fetch('http://localhost/my-fullstack-app/backend/api/categories/get_subcategories.php')
+    fetch('http://localhost/finance-flow/backend/api/categories/get_subcategories.php')
       .then(response => response.json())
       .then(data => {
         if (data.success) {

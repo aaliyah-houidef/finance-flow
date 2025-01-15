@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import TransactionModal from './TransactionModal';
 import { getCurrentUser } from '../services/auth';
+import ExpenseChart from './ExpenseChart';
+import '../styles/Home.css';
 
 const Home = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -20,7 +22,7 @@ const Home = () => {
         }
       });
 
-      const response = await fetch('http://localhost/my-fullstack-app/backend/api/transactions/add_transaction.php', {
+      const response = await fetch('http://localhost/finance-flow/backend/api/transactions/add_transaction.php', {
         method: 'POST',
         body: formData // Ne pas définir le Content-Type header, le navigateur le fera automatiquement
       });
@@ -47,21 +49,25 @@ const Home = () => {
   };
 
   return (
-    <div className="container mx-auto p-4">
-      <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-bold">Tableau de bord</h2>
+    <div className="container">
+      <div className="dashboard-header">
+        <h2 className="dashboard-title">Tableau de bord</h2>
       </div>
 
-      <div className="bg-white shadow rounded-lg p-6 mb-6">
-        <h3 className="text-xl font-semibold mb-4">Solde actuel</h3>
-        <p className="text-3xl font-bold text-green-600">
+      <div className="balance-card">
+        <h3 className="balance-title">Solde actuel</h3>
+        <p className="balance-amount">
           {user?.balance.toLocaleString()}€
         </p>
       </div>
 
+      <div className="chart-card">
+        <ExpenseChart userId={user?.id} />
+      </div>
+
       <button
         onClick={() => setIsModalOpen(true)}
-        className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded transition-colors"
+        className="new-transaction-button"
       >
         Nouvelle Transaction
       </button>
