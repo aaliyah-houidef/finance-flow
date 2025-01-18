@@ -30,7 +30,7 @@ const App = () => {
     <Router>
       <div className="min-h-screen bg-gray-100">
         <Navbar />
-        <div className="container mx-auto py-8">
+        <div className="container mx-auto py-8 main-container">
           <Routes>
             {/* Route principale protégée */}
             <Route

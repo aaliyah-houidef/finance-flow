@@ -1,17 +1,22 @@
 .chart-container {
   width: 100%;
+  height: 45svh;
 }
 
 .chart-title {
-  color: #059669;
-  font-size: 1.25rem;
+  color: #4b6ab6;
+  font-size: 2rem;
   font-weight: 600;
   margin-bottom: 1rem;
+  margin-top: 0.5rem;
+  font-family: "Lekton", serif;
+  font-weight: 100;
 }
 
 .chart-wrapper {
   width: 100%;
-  height: 400px;
+  height: 300px;
+  overflow: visible;
 }
 
 .loading-text {
@@ -25,7 +30,62 @@
 }
 
 .chart-card {
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  border-radius: 0.5rem;
   width: 50rem;
+}
+
+.recharts-default-legend {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+  gap: 10px;
+  justify-items: center;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.recharts-sector:active{
+  border: none !important;
+}
+
+.chart-label {
+  font-size: 0.9rem;
+  font-weight: bold;
+  overflow: visible !important;
+  position: absolute;
+  pointer-events: none;
+}
+
+@media screen and (max-width: 768px) {
+  .chart-card {
+    width: 35rem;
+  }
+}
+
+@media screen and (max-width: 426px) {
+  .chart-card {
+    width: 15rem;
+  }
+  .chart-title {
+    font-size: 1rem;
+    margin-bottom: 0;
+  }
+  .recharts-surface {
+    width: 14rem !important;
+  }
+  .recharts-pie-label-line {
+    display: none !important;
+  }
+  .chart-label {
+    font-size: 0.8rem;
+    font-weight: bold;
+    text-align: center;
+    pointer-events: none;
+    white-space: pre; /* Pour gérer les sauts de ligne */
+    text-shadow: black 1px 1px 1px;
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .chart-card {
+    width: 20rem;
+  }
 }

@@ -1,8 +1,10 @@
+import { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { logout, getCurrentUser } from '../services/auth';
 import '../styles/Navbar.css';
 
 const Navbar = () => {
+  const [menuOpen, setMenuOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
   const currentUser = getCurrentUser();
@@ -50,30 +52,34 @@ const Navbar = () => {
     <nav className="navbar">
       <div className="navbar-container">
         <div className="navbar-left">
-          <h1>FinanceFlow</h1>
+          <h1>FINANCEFLOW</h1>
         </div>
-        
+
         <div className="navbar-right">
           {currentUser ? (
-            <div className="flex">
-              <span className="text-gray-300">
-                Bienvenue, {currentUser.username}
-              </span>
+            <>
+              <div className="burger-menu" onClick={() => setMenuOpen(!menuOpen)}>
+                <div className="burger-line"></div>
+                <div className="burger-line"></div>
+                <div className="burger-line"></div>
+              </div>
 
-              {location.pathname === '/profile' ? (
-                <Link to="/" className="bg-blue-500">
-                  Accueil
-                </Link>
-              ) : (
-                <Link to="/profile" className="bg-blue-500">
-                  Profil
-                </Link>
-              )}
+              <div className={`dropdown-menu ${menuOpen ? 'active' : ''}`}>
+                {location.pathname === '/profile' ? (
+                  <Link to="/" className="bg-blue-500">
+                    Accueil
+                  </Link>
+                ) : (
+                  <Link to="/profile" className="bg-blue-500">
+                    Profil
+                  </Link>
+                )}
 
-              <button onClick={handleLogout} className="bg-red-500">
-                Déconnexion
-              </button>
-            </div>
+                <button onClick={handleLogout} className="bg-red-500">
+                  Déconnexion
+                </button>
+              </div>
+            </>
           ) : (
             <div className="flex">
               {renderAuthButton()}

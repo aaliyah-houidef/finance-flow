@@ -50,30 +50,33 @@ const Home = () => {
         <h2 className="dashboard-title">Tableau de bord</h2>
       </div>
 
-      <div className="balance-card">
-        <h3 className="balance-title">Solde :</h3>
-        <p className="balance-amount">
-          {user?.balance.toLocaleString()}€
-        </p>
-      </div>
-
-      <button
-        onClick={() => setIsModalOpen(true)}
-        className="new-transaction-button"
-      >
-        +
-      </button>
-      <p className="new-transaction-label">Nouvelle transaction</p>
-
       <div className="chart-card">
         <ExpenseChart userId={user?.id} />
       </div>
 
-      <TransactionModal
+      <div className='balance-card-amount'>
+        <div className="balance-card">
+          <h3 className="balance-title">Solde:</h3>
+          <p className="balance-amount">
+            {user?.balance.toLocaleString()}€
+          </p>
+        </div>
+
+        <button
+          onClick={() => setIsModalOpen(true)}
+          className="new-transaction-button"
+        >
+          +
+        </button>
+        
+        <p className="new-transaction-label">Nouvelle transaction</p>
+
+        <TransactionModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         onSubmit={handleAddTransaction}
-      />
+        />
+      </div>
 
     </div>
   );
