@@ -93,9 +93,12 @@ const TransactionModal = ({ isOpen, onClose, onSubmit }) => {
       return;
     }
 
+    // Convertir et formater le montant avec exactement 2 décimales
+    const formattedAmount = parseFloat(parseFloat(amount).toFixed(2));
+
     const transactionData = {
       id_user: user.id,
-      amount: parseFloat(amount),
+      amount: formattedAmount,
       type,
       payment_method: paymentMethod,
       description,
@@ -144,9 +147,11 @@ const TransactionModal = ({ isOpen, onClose, onSubmit }) => {
             <input
               type="number"
               step="0.01"
+              min="0"
               className="form-input"
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
+              placeholder="0.00"
               required
             />
           </div>
@@ -245,19 +250,21 @@ const TransactionModal = ({ isOpen, onClose, onSubmit }) => {
             </div>
           </div>
 
-          <button
-            type="button"
-            onClick={onClose}
-            className="btn-secondary"
-          >
-            Annuler
-          </button>
-          <button
-            type="submit"
-            className="btn-primary"
-          >
-            Ajouter
-          </button>
+          
+            <button
+              type="button"
+              onClick={onClose}
+              className="btn-secondary"
+            >
+              Annuler
+            </button>
+            <button
+              type="submit"
+              className="btn-primary"
+            >
+              Ajouter
+            </button>
+        
         </form>
       </div>
     </div>

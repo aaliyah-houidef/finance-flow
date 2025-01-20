@@ -1,0 +1,104 @@
+.transactions-container {
+  max-height: 330px; /* Ajuste si nécessaire */
+  max-width: 333px; /* Limite la largeur */
+  overflow-y: auto;
+  border: 3px solid #4b6ab6;
+  margin-top: 3svh; /* Sépare un peu des filtres */
+  width: auto; 
+  margin-bottom: 5svh;
+  border-radius: 5px 0 0 5px ;
+  cursor: pointer;
+  background-color: rgba(240, 248, 255, 0.898);
+  color: black;
+}
+
+.transaction-infos {
+  display: table-row;
+}
+
+.transaction-infos > div,
+.transaction-infos > p {
+  display: table-cell;
+  padding: 8px;
+  border-bottom: 3px solid #4b6ab6;
+}
+
+.filters {
+  display: flex;
+  flex-direction: row;
+  gap: 16px; /* Espace entre les filtres */
+  margin-top: 2svh;
+}
+
+.main-transactions-container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.container{
+  padding: 0 4rem 0 4rem;
+}
+
+.search-input{
+  width: 50%;
+  padding: 0.75rem;
+  border: 1px solid #555555;
+  border-radius: 0.5rem;
+  background-color: #383838;
+  color: #ffffff;
+  box-sizing: border-box;
+}
+
+/* Style pour la modal */
+.transaction-modal {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Deux colonnes : label et valeur */
+  gap: 1rem 2rem; /* Espace entre les lignes et colonnes */
+}
+
+.transaction-modal strong {
+  font-weight: 600;
+}
+
+.transaction-modal p {
+  margin: 0;
+  margin-bottom: 3svh;
+}
+
+.modal-profil-container {
+  text-align: start;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform: translate(-50%, -44.5%); /* Centrer la modal */
+  padding: 0.5rem 2rem 0.5rem 2rem; /* Ajuste le padding pour réduire la taille globale */
+  background-color: #242424; /* Fond semi-transparent */
+  z-index: 50; /* Toujours au-dessus */
+  max-width: 50rem;
+  border-radius: 20px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px, rgb(51, 51, 51) 0px 0px 0px 3px;
+}
+
+.title-modal-container{
+  margin-top: 0;
+  color: #4b6ab6;
+  font-size: 2rem;
+  text-align: center;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 50;
+}

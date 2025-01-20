@@ -1,3 +1,9 @@
+.recharts-surface{
+  position: absolute;
+  left: 0%;
+  bottom: 10%;
+}
+
 .chart-container {
   width: 100%;
   height: 45svh;
@@ -54,9 +60,35 @@
   pointer-events: none;
 }
 
+/* Suppression de l'effet de sélection */
+.recharts-sector {
+  outline: none !important;
+  user-select: none;
+}
+
+.recharts-sector:active,
+.recharts-sector:focus {
+  outline: none !important;
+  border: none !important;
+}
+
+.return-button{
+  position: absolute;
+  top: 67%;
+  left: 43.5%;
+}
+
+.recharts-layer{
+  overflow: visible;
+}
+
 @media screen and (max-width: 768px) {
   .chart-card {
     width: 35rem;
+  }
+  .return-button{
+    left: 37%;
+    top: 61%;
   }
 }
 
@@ -82,10 +114,26 @@
     white-space: pre; /* Pour gérer les sauts de ligne */
     text-shadow: black 1px 1px 1px;
   }
+  .return-button{
+    left: 32%;
+    font-size: small;
+  }
 }
+
+@media screen and (max-width: 376px) {
+  .return-button{
+    left: 29%;
+    top: 61%;
+  }
+}
+
 
 @media screen and (max-width: 320px) {
   .chart-card {
     width: 20rem;
   }
+  .return-button{
+    left: 25%;
+  }
 }
+

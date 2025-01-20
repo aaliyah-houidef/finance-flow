@@ -58,7 +58,10 @@ const Home = () => {
         <div className="balance-card">
           <h3 className="balance-title">Solde:</h3>
           <p className="balance-amount">
-            {user?.balance.toLocaleString()}€
+            {(user?.balance || 0).toLocaleString('fr-FR', {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2
+            })}€
           </p>
         </div>
 
@@ -72,12 +75,11 @@ const Home = () => {
         <p className="new-transaction-label">Nouvelle transaction</p>
 
         <TransactionModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        onSubmit={handleAddTransaction}
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          onSubmit={handleAddTransaction}
         />
       </div>
-
     </div>
   );
 };

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { getCurrentUser } from '../services/auth';
+import '../styles/Profile.css';
 
 const Profile = () => {
   const [transactions, setTransactions] = useState([]);
@@ -125,9 +126,9 @@ const Profile = () => {
     }
 
     if (sortType === 'amount-asc') {
-      filtered.sort((a, b) => a.amount - b.amount);
+      filtered.sort((a, b) => parseFloat(a.amount) - parseFloat(b.amount));
     } else if (sortType === 'amount-desc') {
-      filtered.sort((a, b) => b.amount - a.amount);
+      filtered.sort((a, b) => parseFloat(b.amount) - parseFloat(a.amount));
     } else if (sortType === 'date') {
       filtered.sort((a, b) => new Date(b.date) - new Date(a.date));
     }
@@ -150,89 +151,94 @@ const Profile = () => {
 
   return (
     <div className="container mx-auto p-4">
-      <h2 className="text-2xl font-bold mb-6">Profil</h2>
-      <div className="bg-white shadow rounded-lg p-6 mb-6">
-        <h3 className="text-xl font-semibold mb-4">Transactions</h3>
+        <h2 className="text-2xl font-bold mb-6 dashboard-title">Profil - {currentUser?.username}</h2>
+      <div className="bg-white shadow rounded-lg p-6 mb-6 main-transactions-container">
+        <h3 className="text-xl font-semibold mb-4 chart-title">Mes transactions</h3>
 
         <input
           type="text"
-          className="p-2 border rounded-md w-full mb-4"
-          placeholder="Rechercher parmi vos transactions"
+          className="p-2 border rounded-md w-full mb-4 search-input"
+          placeholder="Rechercher parmi vos transactions..."
           value={searchTerm}
           onChange={handleSearch}
         />
+        <div className='filters'>
+          <div className="mb-4">
+            <select
+              className="p-2 border rounded-md"
+              onChange={(e) => setFilterType(e.target.value)}
+              value={filterType}
+            >
+              <option value="">Tous les types</option>
+              <option value="income">Entrée d'argent</option>
+              <option value="expense">Dépense</option>
+            </select>
+          </div>
 
-        <div className="mb-4">
-          <select
-            className="p-2 border rounded-md"
-            onChange={(e) => setFilterType(e.target.value)}
-            value={filterType}
-          >
-            <option value="">Tous les types</option>
-            <option value="income">Entrée d'argent</option>
-            <option value="expense">Dépense</option>
-          </select>
+          <div className="mb-4">
+            <select
+              className="p-2 border rounded-md"
+              onChange={(e) => setFilterRecurrence(e.target.value)}
+              value={filterRecurrence}
+            >
+              <option value="">Récurrence</option>
+              <option value="monthly">Mensuel</option>
+              <option value="weekly">Hebdomadaire</option>
+              <option value="none">Unique</option>
+            </select>
+          </div>
+
+          <div className="mb-4">
+            <select
+              className="p-2 border rounded-md"
+              onChange={(e) => setFilterPaymentMethod(e.target.value)}
+              value={filterPaymentMethod}
+            >
+              <option value="">Méthode de paiement</option>
+              <option value="card">Carte bancaire</option>
+              <option value="cash">Espèces</option>
+              <option value="transfer">Virement</option>
+              <option value="paypal">PayPal</option>
+            </select>
+          </div>
+
+          <div className="mb-4">
+            <select
+              className="p-2 border rounded-md"
+              onChange={(e) => setSortType(e.target.value)}
+              value={sortType}
+            >
+              <option value="date">Trier par date</option>
+              <option value="amount-asc">Trier par montant croissant</option>
+              <option value="amount-desc">Trier par montant décroissant</option>
+            </select>
+          </div>
         </div>
-
-        <div className="mb-4">
-          <select
-            className="p-2 border rounded-md"
-            onChange={(e) => setFilterRecurrence(e.target.value)}
-            value={filterRecurrence}
-          >
-            <option value="">Récurrence</option>
-            <option value="monthly">Mensuel</option>
-            <option value="weekly">Hebdomadaire</option>
-            <option value="none">Unique</option>
-          </select>
-        </div>
-
-        <div className="mb-4">
-          <select
-            className="p-2 border rounded-md"
-            onChange={(e) => setFilterPaymentMethod(e.target.value)}
-            value={filterPaymentMethod}
-          >
-            <option value="">Méthode de paiement</option>
-            <option value="card">Carte bancaire</option>
-            <option value="cash">Espèces</option>
-            <option value="transfer">Virement</option>
-            <option value="paypal">PayPal</option>
-          </select>
-        </div>
-
-        <div className="mb-4">
-          <select
-            className="p-2 border rounded-md"
-            onChange={(e) => setSortType(e.target.value)}
-            value={sortType}
-          >
-            <option value="date">Trier par date</option>
-            <option value="amount-asc">Trier par montant croissant</option>
-            <option value="amount-desc">Trier par montant décroissant</option>
-          </select>
-        </div>
-
         {loading ? (
           <p>Chargement des transactions...</p>
         ) : error ? (
           <p className="text-red-600">{error}</p>
         ) : (
-          <div className="space-y-4">
+          <div className="space-y-4 transactions-container">
             {filteredTransactions.length > 0 ? (
               filteredTransactions.map((transaction) => (
                 <div
                   key={transaction.id}
-                  className="flex justify-between items-center bg-gray-100 p-4 rounded-lg hover:bg-gray-200 cursor-pointer"
+                  className="transaction-infos cursor-pointer"
                   onClick={() => openModal(transaction)}
                 >
                   <div>
                     <p className="text-gray-700 font-semibold">{transaction.description}</p>
-                    <p className="text-gray-500">{new Date(transaction.date).toLocaleDateString('fr-FR')}</p>
                   </div>
                   <p className={`text-lg font-bold ${transaction.type === 'expense' ? 'text-red-600' : 'text-green-600'}`}>
-                    {transaction.type === 'expense' ? '-' : '+'}{transaction.amount.toLocaleString()}€
+                    {transaction.type === 'expense' ? '-' : '+'}
+                    {parseFloat(transaction.amount).toLocaleString('fr-FR', {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2
+                    })}€
                   </p>
+                  <p className="text-gray-500">{new Date(transaction.date).toLocaleDateString('fr-FR')}</p>
+
                 </div>
               ))
             ) : (
@@ -241,33 +247,55 @@ const Profile = () => {
           </div>
         )}
       </div>
-            {isModalOpen && selectedTransaction && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg w-11/12 md:w-1/3">
-            <h3 className="text-2xl font-semibold mb-4">Détails de la transaction</h3>
-            <p><strong>Description :</strong> {selectedTransaction.description}</p>
-            <p><strong>Montant :</strong> {selectedTransaction.amount.toLocaleString()}€</p>
-            <p><strong>Date :</strong> {new Date(selectedTransaction.date).toLocaleDateString('fr-FR')}</p>
-            <p><strong>Type :</strong> {translateType(selectedTransaction.type)}</p>
-            <p><strong>Méthode de paiement :</strong> {translatePaymentMethod(selectedTransaction.payment_method)}</p>
-            <p><strong>Récurrence :</strong> {translateRecurrence(selectedTransaction.recurrence)}</p>
-            <p><strong>Catégorie :</strong> {getCategoryName(selectedTransaction.id_category)}</p>
-            <p><strong>Sous-catégorie :</strong> {getSubcategoryName(selectedTransaction.id_subcategory)}</p>
-            
-            {selectedTransaction.payment_confirmation && (
-              <div className="mt-4">
-                <p><strong>Reçu :</strong></p>
-                <a
-                  href={`http://localhost/finance-flow/backend/api/transactions/download_receipt.php?filename=${selectedTransaction.payment_confirmation}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-block mt-2 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
-                >
-                  Télécharger le reçu
-                </a>
-              </div>
-            )}
 
+      {isModalOpen && selectedTransaction && (
+        <div className="modal-overlay">
+          <div className="modal-profil-container">
+            <h3 className="text-2xl font-semibold mb-4 title-modal-container">Détails de la transaction</h3>
+            <div className="transaction-modal">
+              <strong>Description :</strong>
+              <p>{selectedTransaction.description}</p>
+
+              <strong>Montant :</strong>
+              <p>
+                {parseFloat(selectedTransaction.amount).toLocaleString('fr-FR', {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                })}€
+              </p>
+
+              <strong>Date :</strong>
+              <p>{new Date(selectedTransaction.date).toLocaleDateString('fr-FR')}</p>
+
+              <strong>Type :</strong>
+              <p>{translateType(selectedTransaction.type)}</p>
+
+              <strong>Méthode de paiement :</strong>
+              <p>{translatePaymentMethod(selectedTransaction.payment_method)}</p>
+
+              <strong>Récurrence :</strong>
+              <p>{translateRecurrence(selectedTransaction.recurrence)}</p>
+
+              <strong>Catégorie :</strong>
+              <p>{getCategoryName(selectedTransaction.id_category)}</p>
+
+              <strong>Sous-catégorie :</strong>
+              <p>{getSubcategoryName(selectedTransaction.id_subcategory)}</p>
+
+              {selectedTransaction.payment_confirmation && (
+                <>
+                  <strong>Reçu :</strong>
+                  <a
+                    href={`http://localhost/finance-flow/backend/api/transactions/download_receipt.php?filename=${selectedTransaction.payment_confirmation}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-600 hover:underline"
+                  >
+                    Télécharger le reçu
+                  </a>
+                </>
+              )}
+            </div>
             <button
               className="mt-4 px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700"
               onClick={closeModal}
@@ -277,6 +305,8 @@ const Profile = () => {
           </div>
         </div>
       )}
+
+
     </div>
   );
 };

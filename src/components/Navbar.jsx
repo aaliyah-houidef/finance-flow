@@ -63,7 +63,7 @@ const Navbar = () => {
                 <div className="burger-line"></div>
                 <div className="burger-line"></div>
               </div>
-
+            
               <div className={`dropdown-menu ${menuOpen ? 'active' : ''}`}>
                 {location.pathname === '/profile' ? (
                   <Link to="/" className="bg-blue-500">
